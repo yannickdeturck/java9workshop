@@ -15,6 +15,7 @@ public class CollectorsImprovements {
     public static void main(String[] args) {
         // counting the numbers in a list
         // filter
+        System.out.println("filter example:");
         List<Integer> numbers = List.of(1, 2, 3, 5, 5);
         Map<Integer, Long> result = numbers.stream()
                 .filter(val -> val > 3)
@@ -23,6 +24,7 @@ public class CollectorsImprovements {
         // 5 -> 2
 
         // filtering
+        System.out.println("\nfiltering example:");
         result = numbers.stream()
                 .collect(Collectors.groupingBy(i -> i,
                         Collectors.filtering(val -> val > 3, Collectors.counting())));
@@ -31,17 +33,21 @@ public class CollectorsImprovements {
 
 
         // get the comments for each blogpost category
+        System.out.println("\nmapping example:");
         List<BlogPost> blogposts = findBlogPosts();
         Map<String, List<List<String>>> blogPostComments = blogposts.stream()
                 .collect(Collectors.groupingBy(BlogPost::getCategory,
                         Collectors.mapping(BlogPost::getComments, Collectors.toList())));
-        // junit -> [[comment0], [comment0, comment1, comment2]]
+        System.out.println(blogPostComments);
+        // {spring=[[comment0, comment1, comment2]], junit=[[comment0]], java 9=[[comment0]]}
 
+        System.out.println("\nflatMapping example:");
         Map<String, List<String>> blogPostComments2 = blogposts.stream()
                 .collect(Collectors.groupingBy(BlogPost::getCategory,
                         Collectors.flatMapping(blog -> blog.getComments().stream(),
                                 Collectors.toList())));
-        // junit -> [comment0, comment0, comment1, comment2]
+        System.out.println(blogPostComments2);
+        // {spring=[comment0, comment1, comment2], junit=[comment0], java 9=[comment0]}
     }
 
     private static List<BlogPost> findBlogPosts() {

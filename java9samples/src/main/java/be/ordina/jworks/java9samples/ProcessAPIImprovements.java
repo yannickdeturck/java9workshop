@@ -32,7 +32,7 @@ public class ProcessAPIImprovements {
         CompletableFuture[] lsThenGrepFutures = processes.stream()
                 .map(Process::onExit)
                 .map(processFuture -> processFuture.thenAccept(
-                        process -> System.out.println("PID: " + process.getPid())))
+                        process -> System.out.println("PID: " + process.pid())))
                 .toArray(CompletableFuture[]::new);
         CompletableFuture
                 .allOf(lsThenGrepFutures)
@@ -41,7 +41,7 @@ public class ProcessAPIImprovements {
         // Example ProcessInfo
         ProcessHandle processHandle = ProcessHandle.current();
         ProcessHandle.Info processInfo = processHandle.info();
-        processHandle.getPid(); // long
+        processHandle.pid(); // long
         // 12138
         processInfo.arguments(); // Optional<String[]>
         // -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:62727,suspend=y,server=n
